@@ -1,0 +1,80 @@
+{
+    "user_id": "12345",
+    "username": "john_doe",
+    "password_hash": "hashed_password_value",
+    "salt": "random_salt_value",
+    "email": "john.doe@example.com",
+    "phone_number": "+1234567890",
+    "full_name": "John Doe",
+    "profile_picture_url": "https://example.com/profile.jpg",
+    "date_of_birth": "1990-01-01",
+    "gender": "Male",
+    "location": "New York, USA",
+    "created_at": "2024-11-29T12:00:00Z",
+    "last_login_at": "2024-11-28T15:30:00Z",
+    "is_verified": true,
+    "is_active": true,
+    "failed_login_attempts": 0,
+    "two_factor_enabled": true,
+    "role": "user",
+    "subscription_plan": "premium",
+    "language_preference": "en",
+    "time_zone": "America/New_York",
+    "account_status": "active",
+    "last_activity": "2024-11-29T12:10:00Z",
+    "referral_code": "REF12345",
+    "oauth_token": "oauth_token_value",
+    "consent_date": "2024-11-29T12:00:00Z",
+    "data_access_request": false,
+    "address": {
+        "address_line1": "123 Main St",
+        "address_line2": "Apt 4B",
+        "city": "New York",
+        "state": "NY",
+        "postal_code": "10001",
+        "country": "USA"
+    },
+    "security": {
+        "password_reset_token": "reset_token_value",
+        "security_questions": [
+            {
+                "question": "What is your mother's maiden name?",
+                "answer": "Smith"
+            },
+            {
+                "question": "What was the name of your first pet?",
+                "answer": "Fluffy"
+            }
+        ]
+    },
+    "payment_info": {
+        "payment_method": "credit_card",
+        "billing_address": {
+            "address_line1": "123 Main St",
+            "address_line2": "Apt 4B",
+            "city": "New York",
+            "state": "NY",
+            "postal_code": "10001",
+            "country": "USA"
+        },
+        "transaction_history": [
+            {
+                "transaction_id": "TX12345",
+                "amount": 99.99,
+                "date": "2024-11-01T10:00:00Z",
+                "status": "completed"
+            },
+            {
+                "transaction_id": "TX12346",
+                "amount": 49.99,
+                "date": "2024-11-15T11:00:00Z",
+                "status": "completed"
+            }
+        ]
+    },
+    "notifications": {
+        "email_notifications": true,
+        "sms_notifications": false,
+        "app_push_notifications": true
+    }
+}
