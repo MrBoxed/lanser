@@ -1,9 +1,11 @@
 const path = require('path');
 const sqlite = require('sqlite3').verbose();
-const { DATABASE_NAME, movieTable, bookTable, musicTable } = require('../config/config');
+const { DATABASE_NAME } = require('../config/config');
+const { movieTable, bookTable, musicTable, userTable } = require('./Tables/tables');
 
 
-const tables = [movieTable, musicTable, bookTable];
+// TODO: Add userTable to the tables array
+const tables = [movieTable, musicTable, bookTable]; // Array of tables to be created
 const dbName = DATABASE_NAME;
 
 async function ConnectDB() {
