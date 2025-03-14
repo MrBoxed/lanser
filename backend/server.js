@@ -1,6 +1,6 @@
 const express = require('express');
 const DB = require('./database/db.js');
-const homeRoute = require('./routes/home.route.js');
+const homeRoute = require('./routes/home.routes.js');
 const { SERVER_PORT } = require('./config/config.js');
 
 const app = express();
