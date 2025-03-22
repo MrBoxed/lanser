@@ -5,7 +5,7 @@ const { movieTable, bookTable, musicTable, userTable } = require('./Tables/table
 
 
 // TODO: Add userTable to the tables array
-const tables = [movieTable, musicTable, bookTable]; // Array of tables to be created
+const tables = [movieTable, musicTable, bookTable, userTable]; // Array of tables to be created
 const dbName = DATABASE_NAME;
 
 async function ConnectDB() {
@@ -34,7 +34,7 @@ async function CreateTables(database) {
     tables.forEach(async (table) => {
         await database.run(table.strQuery, (err) => {
             if (err) {
-                console.log("Table already exists!");
+                console.log("Table already exists!: " + table.name);
                 return;
             }
             console.log(`Table created!`);

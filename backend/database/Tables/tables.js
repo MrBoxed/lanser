@@ -58,6 +58,7 @@ export const userTable = {
             Password TEXT NOT NULL,                     -- Password for login
             Email TEXT,                                 -- Email address of the user
             ProfilePic TEXT,                            -- Profile picture URL
+            role TEXT CHECK(role IN ('admin', 'user')) -- Restricts role to 'admin' or 'user'
     );`
 }
 
