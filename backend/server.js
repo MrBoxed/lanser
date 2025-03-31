@@ -8,7 +8,7 @@ const PORT = SERVER_PORT;
 
 // ### ONLY FOR TESTING ###
 app.set('view engine', 'ejs');
-app.set('views', `${ROOT_FOLDER}/views`);
+app.set('views', './views');
 app.get('/movies/upload', (req, res) => {
     res.render('movieUpload');
 })

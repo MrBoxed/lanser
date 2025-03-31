@@ -2,9 +2,11 @@ const express = require("express");
 const movieRouter = express.Router();
 const multer = require('multer');
 
-const { UploadFile, uploadDir } = require('../middleware/upload.middleware');
+const { UploadFile } = require('../middleware/upload.middleware');
+const { UPLOAD_DIR } = require('../config/config.js');
 
-const fileType = uploadDir["movies"];
+const fileType = UPLOAD_DIR["movies"];
+
 
 // ::: IP:PORT/api/movies/ ::: 
 movieRouter.get('/', (req, res) => {
@@ -12,8 +14,12 @@ movieRouter.get('/', (req, res) => {
 });
 
 // ::: IP:PORT/api/movies/upload :::  
-movieRouter.post('/upload', UploadMovie, (req, res) => {
-    res.status(201).json({ message: "file uploaded" });
+movieRouter.post('/upload', UploadMovie, async (req, res) => {
+    if (req.file)
+        return res.status(201).send('File Uploaded :)');
+
+    else
+        res.status(500).json({ message: "No file uploaded" });
 });
 
 // :::  EXTRA FUNCITION BELOW THIS :::
