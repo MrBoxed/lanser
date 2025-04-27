@@ -3,7 +3,7 @@ const path = require('path');
 const fs = require('fs');
 
 const FIELD_NAME = "videoFile"; // form fieldname : should be same as frontend
-const UPLOAD_DIR = require('../config/config.js');
+
 
 // :: Folder path where you want to create uploads folders: 
 // :: PROJECT ROOT DIR
@@ -93,6 +93,5 @@ function StorageParameter(req, typeObject) {
 }
 
 module.exports = {
-    uploadDir,
     UploadFile
 }

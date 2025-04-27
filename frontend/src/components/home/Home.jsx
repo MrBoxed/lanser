@@ -1,8 +1,13 @@
 import React from 'react'
+import { Button } from '@mui/material'
+import Navbar from '../Navbar/Navbar'
+import './home.css'
 
 function Home() {
     return (
-        <div>Home</div>
+        <div className='home-container'>
+            This is homepag
+        </div>
     )
 }
 
