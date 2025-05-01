@@ -216,11 +216,8 @@ function ResponsiveAppBar() {
                                 sx={{ marginLeft: 'auto', alignContent: 'space-between' }}>
                                 <Button
                                     variant="contained"
+                                    onClick={() => navigate('/login')}
                                     sx={{ mx: '5px' }}>Login </Button>
-
-                                <Button
-                                    variant="contained"
-                                    sx={{ mx: '5px' }} >SignUp </Button>
                             </Box>
                     }
                 </Box>
@@ -229,12 +226,5 @@ function ResponsiveAppBar() {
     );
 }
 
-function IsUserLoggedIn() {
-    return (
-        <>
-
-        </>
-    )
-}
 
 export default ResponsiveAppBar;

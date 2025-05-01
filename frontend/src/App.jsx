@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import Movies from './components/movies/Movies';
 import Books from './components/books/Books';
 import Music from './components/music/Music';
+import ErrorPage from './components/ErrorPage/ErrorPage';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path='/movies' element={<Movies />} />
           <Route path='/books' element={<Books />} />
           <Route path='/music' element={<Music />} />
+          <Route path='/*' element={<ErrorPage />} />
         </Routes>
       </Router>
     </>
