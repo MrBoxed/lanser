@@ -6,6 +6,8 @@ const { SERVER_PORT, ROOT_FOLDER } = require('./config/config.js');
 const app = express();
 const PORT = SERVER_PORT;
 
+process.title = "lanser";
+
 // ### ONLY FOR TESTING ###
 app.set('view engine', 'ejs');
 app.set('views', './views');

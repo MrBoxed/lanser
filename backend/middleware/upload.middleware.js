@@ -2,12 +2,12 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 
-const FIELD_NAME = "videoFile"; // form fieldname : should be same as frontend
-
-
 // :: Folder path where you want to create uploads folders: 
 // :: PROJECT ROOT DIR
 const { ROOT_FOLDER } = require('../config/config.js');
+
+
+
 
 function UploadFile(req, res, next, fileType) {
 
