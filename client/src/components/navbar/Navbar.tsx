@@ -1,23 +1,28 @@
-import Movies from "../pages/movies/Movies";
-import Music from "../pages/music/Music";
-import Books from "../pages/books/Books";
+import Movies from "../../pages/movies/Movies";
+import Music from "../../pages/music/Music";
+import Books from "../../pages/books/Books";
 
 import { Link, Links, useNavigate } from "react-router-dom";
 
-import { PRODUCT_NAME, siteTabs } from "../constants/constants";
+import { PRODUCT_NAME, siteTabs } from "../../constants/constants";
 import { Menu, Upload } from "lucide-react";
 import { useState } from "react";
-import Drawer from "./Drawer";
+import Drawer from "../Drawer";
+import LoginBtn from "./LoginBtn";
+import HoverCardBtn from "../HoverCardBtn";
+import UploadNavButton from "./UploadNavButton";
 
 function NavBar() {
   const navigate = useNavigate();
 
   // ::: For mobile drawer :::
   const [openMenu, setOpenMenu] = useState<boolean>(false);
+  const [uplaodBtnEnable, setUploadBtnEnable] = useState<boolean>(true);
   const openDrawer = () => setOpenMenu(true);
 
   return (
-    <nav className="navbar-style">
+    <nav className="navbar-style ">
+
       {/* HAMBURBER FOR MOBILE */}
       <div className="lg:hidden hover:bg-white/30 rounded-full p-2">
         <div onClick={openDrawer}>
@@ -51,14 +56,17 @@ function NavBar() {
       </div>
 
       {/* LOGIN / UPLOAD BUTTONS */}
-      <div className="flex-1 flex gap-5 px-5 items-center justify-center">
-        <button className="upload-btn" onClick={() => navigate("/upload")}>
-          <Upload />
-          upload
-        </button>
+
+      <div className="flex grow gap-x-1 px-5  items-center justify-evenly">
+        <div className="p-2">
+          <UploadNavButton
+            showBtn={uplaodBtnEnable}
+            btnFunction={setUploadBtnEnable} />
+        </div>
+
         <div
           onClick={() => navigate("/login")}
-          className="text-white font-bold cursor-pointer  p-2 hover:text-violet-300"
+          className="text-white font-bold cursor-pointer p-2 hover:text-violet-800"
         >
           Login
         </div>

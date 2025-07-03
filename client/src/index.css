@@ -40,15 +40,15 @@
   }
 
   .upload-btn {
-    @apply bg-black text-white font-bold rounded-xl flex flex-row gap-2 items-center justify-center hover:shadow-[0px_0px_44px_8px_rgba(45,_108,_176,_0.7)];
+    @apply bg-black text-white font-bold rounded-xl flex flex-row gap-2 items-center justify-center;
   }
 
   .navbar-style {
-    @apply w-full h-12 max-h-12 flex gap-2 px-8 items-center fixed top-0 bg-white/10 backdrop-blur-xl;
+    @apply w-full h-fit max-h-15 flex gap-2 px-2 items-center fixed top-0 bg-black;
   }
 
   .drawer-style {
-    @apply bg-white/10 backdrop-blur-lg shadow-2xl fixed top-0 left-0 w-1/2 md:w-1/3 lg:hidden h-screen rounded-r-xl transition-transform transform duration-500;
+    @apply bg-white/20 backdrop-blur-lg shadow-2xl fixed top-0 left-0 w-2/3 md:w-1/3 lg:hidden h-screen rounded-r-xl transition-transform transform duration-500 z-50;
   }
 
   .drawer-container {

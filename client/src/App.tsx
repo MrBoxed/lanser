@@ -4,8 +4,8 @@ import Home from "./pages/home/Home";
 import Movies from "./pages/movies/Movies";
 import Books from "./pages/books/Books";
 import Music from "./pages/music/Music";
-import ResponsiveAppBar from "./components/Navbar";
-import UploadFile from "./pages/Upload";
+import ResponsiveAppBar from "./components/navbar/Navbar";
+import UploadFile from "./pages/upload/Upload";
 
 function App() {
   return (

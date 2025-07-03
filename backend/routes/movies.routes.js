@@ -14,7 +14,7 @@ movieRouter.get('/', (req, res) => {
 });
 
 // ::: IP:PORT/api/movies/upload :::  
-movieRouter.post('/upload', UploadMovie, async (req, res) => {
+movieRouter.post('/upload', UploadFile, async (req, res) => {
     if (req.file)
         return res.status(201).send('File Uploaded :)');
 
