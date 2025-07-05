@@ -33,8 +33,9 @@ function Drawer({
         <ul className="drawer-container">
           {siteTabs.map((page) => (
             <div
-              onClick={() => {
+              onClick={(e) => {
                 closeDrawer();
+                e.preventDefault();
                 navigate(page.path);
                 return;
               }}

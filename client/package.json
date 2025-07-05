@@ -10,17 +10,25 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@heroui/card": "^2.2.21",
+    "@heroui/image": "^2.2.14",
     "@tailwindcss/vite": "^4.1.6",
+    "axios": "^1.10.0",
+    "framer-motion": "^12.23.0",
     "lucide-react": "^0.511.0",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
+    "motion": "^12.23.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
     "react-router-dom": "^7.6.0",
+    "swiper": "^11.2.10",
     "tailwindcss": "^4.1.6"
   },
   "devDependencies": {
     "@eslint/js": "^9.22.0",
+    "@types/axios": "^0.9.36",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
+    "@types/swiper": "^5.4.3",
     "@vitejs/plugin-react": "^4.3.4",
     "eslint": "^9.22.0",
     "eslint-plugin-react-hooks": "^5.2.0",
