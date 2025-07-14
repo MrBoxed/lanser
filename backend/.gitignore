@@ -1,6 +1,12 @@
 # dependencies
 /node_modules
 
+# The typescript build
+build
+
+# Drizzle file
+drizzle
+
 # Logs
 logs
 *.log

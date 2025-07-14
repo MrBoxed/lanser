@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
 @theme {
+  --bg-muted: #c0c0c0;
 }
 
 @layer base {
@@ -48,7 +49,7 @@
   }
 
   .navbar-style {
-    @apply w-full h-fit max-h-15 flex gap-2 px-4 items-center fixed top-0 bg-black z-10;
+    @apply w-full h-15 max-h-15 flex gap-2 px-4 items-center fixed top-0 bg-black z-10;
   }
 
   .drawer-style {

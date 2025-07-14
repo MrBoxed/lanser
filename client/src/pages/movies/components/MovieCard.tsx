@@ -16,21 +16,18 @@ function MovieCard() {
 
     return (
 
-        <Card
-            isFooterBlurred
-            radius="lg"
-            className='w-[450px] h-[300px] bg-white/20'
-        >
-            <Image
-                isBlurred
-                src="https://windows10spotlight.com/wp-content/uploads/2023/01/81a6e74c8adbf7f55406e8c4b80669d5.jpg"
-                className='object-cover'
-                alt={dummy.title}
-            >
-            </Image>
+        <div
+            className='w-[450px] h-[300px] bg-white/20 relative hover:scale-105 transition duration-300 '>
 
-            <CardFooter
-                className="overflow-hidden absolute bottom-0">
+            <img
+                src="https://windows10spotlight.com/wp-content/uploads/2023/01/81a6e74c8adbf7f55406e8c4b80669d5.jpg"
+                className='w-full h-full object-fit rounded-'
+                alt={dummy.title}
+            />
+
+            <div className="w-full p-2 bg-black/10
+            backdrop-blur-sm absolute bottom-0 left-0">
+
                 <SplitText
                     text={dummy.title}
                     type='words' // chars', 'words', or 'lines'
@@ -45,8 +42,8 @@ function MovieCard() {
                     }}
                     className="text-xl"
                 />
-            </CardFooter>
-        </Card >
+            </div>
+        </div >
 
     )
 }

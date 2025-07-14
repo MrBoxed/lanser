@@ -4,7 +4,7 @@ import Books from "../../pages/books/Books";
 
 import { Link, Links, useNavigate } from "react-router-dom";
 
-import { PRODUCT_NAME, siteTabs } from "../../constants/constants";
+import { PRODUCT_NAME, siteTabs } from "../../utils/constants";
 import { Menu, Upload } from "lucide-react";
 import { useState } from "react";
 import Drawer from "../Drawer";

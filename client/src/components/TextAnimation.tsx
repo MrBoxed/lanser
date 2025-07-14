@@ -30,7 +30,7 @@ const TextAnimaation: React.FC<TextProps> = ({
                     animate={{ filter: "blur(0)", opacity: 1, y: 0 }}
                     transition={{ duration: 0.2, delay: 0.05 * index }}
                 >
-                    {char === ' ' ? '\u00A0' : char} {/* Rendering space as non-breaking space */}
+                    {char === ' ' ? ' ' : char} {/* Rendering space as non-breaking space */}
 
                 </motion.span>
             ));
@@ -39,15 +39,15 @@ const TextAnimaation: React.FC<TextProps> = ({
         } else if (type === 'words') {
 
             return text.split(" ").map((word, index) => (
-                <motion.p
+                <motion.span
                     initial={{ filter: "blur(10px)", opacity: 0, y: 12 }}
                     animate={{ filter: "blur(0)", opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: 0.1 * index }}
                     key={index}
                     className={className}
                 >
-                    {word}
-                </motion.p>
+                    {word}{' '}
+                </motion.span>
             ));
 
         } else if (type === 'lines') {

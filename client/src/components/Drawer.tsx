@@ -1,5 +1,5 @@
 import React, { SetStateAction, useState } from "react";
-import { PRODUCT_NAME, siteTabs } from "../constants/constants";
+import { PRODUCT_NAME, siteTabs } from "../utils/constants";
 import { Settings, X, Clapperboard, BookOpenText, Music } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
