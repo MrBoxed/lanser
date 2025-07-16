@@ -1,8 +1,6 @@
 import { CloudUpload, FileUp, FileUpIcon, Filter } from "lucide-react";
 import React, { DragEvent, useState, useRef, useEffect, MouseEventHandler, SetStateAction, createElement } from "react";
-
-import { DragNDropProps } from "./Upload";
-import { GetFileType } from "../../utils/utils";
+import { GetFileType } from "../../../utils/utils";
 
 
 // TODO: 
@@ -13,6 +11,13 @@ import { GetFileType } from "../../utils/utils";
 //    provide the file to parent
 //    
 
+// Defining in parent 
+export interface DragNDropProps {
+
+  // setFileSelected: React.Dispatch<SetStateAction<boolean>>,
+  setSelectedFile: React.Dispatch<React.SetStateAction<File | null>>,
+
+}
 
 
 function DragNDrop({ setSelectedFile }: DragNDropProps) {

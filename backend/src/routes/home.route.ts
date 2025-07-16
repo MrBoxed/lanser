@@ -4,28 +4,33 @@ import movieRouter from "./movie.route";
 import audioRouter from "./music.route";
 import docRouter from "./docs.route";
 import uploadRouter from "./upload.route";
+import authRouter from "./auth.route";
 
-const homeRoute = express.Router();
+const apiRoute = express.Router();
+
 
 // ::: IP:PORT/api/home ::: 
-homeRoute.get("/home", (req, res) => {
+apiRoute.get("/home", (req, res) => {
     res.status(200).json({
         success: true,
         data: "ALL SET :)"
     });
 });
 
+// ::: IP:PORT/api/auth ::: 
+apiRoute.use('/auth', authRouter);
+
 // ::: IP:PORT/api/movies ::: 
-homeRoute.use('/movies', movieRouter);
+apiRoute.use('/movies', movieRouter);
 
 // ::: IP:PORT/api/music ::: 
-homeRoute.use('/music', audioRouter);
+apiRoute.use('/music', audioRouter);
 
 // ::: IP:PORT/api/books ::: 
-homeRoute.use('./books', docRouter);
+apiRoute.use('./books', docRouter);
 
 // :: IP:PORT/api/upload :::
-homeRoute.use('/upload', uploadRouter);
+apiRoute.use('/upload', uploadRouter);
 
 
-export default homeRoute;
+export default apiRoute;

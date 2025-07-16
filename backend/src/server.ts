@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors"
 import { SERVER_PORT, ROOT_FOLDER } from "./config/server.config";
 import { drizzle } from "drizzle-orm/singlestore/driver";
-import homeRoute from "./routes/home.route";
+import apiRoutes from "./routes/home.route";
 
 // ::: ROUTES :::
 
@@ -21,7 +21,7 @@ const app = express();
 app.use(cors());
 
 // ::: IP:PORT/api/ :::
-app.use('/api', homeRoute);
+app.use('/api', apiRoutes);
 
 
 // ::: CONNECTING DATATBASE :::

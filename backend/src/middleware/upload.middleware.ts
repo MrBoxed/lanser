@@ -104,12 +104,16 @@ export default function UploadFile(req: Request, res: Response, next: NextFuncti
 
         if (storage) {
             const upload = multer({ storage: storage });
+            
             upload.single(FIELD_NAME)(req, res, err => {
+                
                 if (err) {
-                    console.error(`Error: ${err.message}`);
-                }
+                console.error("Multer error:", err.message);
+                return res.status(500).json({ error: "File upload failed", details: err.message });
+            }
 
-                console.error(`Video uploaded successfully: ${req.file?.filename}`);
+                console.log(`Video uploaded successfully: ${req.file?.filename}`);
+                next();
             });
 
         }
@@ -120,7 +124,6 @@ export default function UploadFile(req: Request, res: Response, next: NextFuncti
         console.error("Error at uploading: " + err.message);
     }
 
-    next();
 }
 
 // :: FUNCTION TO SET UPLOAD PARAMETER ACCORDING TO FILE TYPE ::  

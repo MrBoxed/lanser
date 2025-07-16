@@ -1,104 +1,241 @@
-import React, { DragEvent, SetStateAction, useEffect, useState } from "react";
-
-import DragNDrop from "./DragNDrop.js";
-import { FileUp, ShieldAlert, CheckCircle } from "lucide-react";
-import UploadForm from "./UploadFileForm.js";
-import StepIndicator from "./StepIndicator.js";
-import { div } from "framer-motion/client";
-import UploadFileForm from "./UploadFileForm.js";
+import React, { DragEvent, useEffect, useState } from "react";
+import StepIndicator from "./components/StepIndicator.js";
+import UploadFileForm from "./components/UploadFileForm.js";
 import { instance } from "../../config/ApiService.js";
+import FileUploadCard from "./components/FileUploadCard.js";
+import DragNDrop from "./components/DragNDrop.js";
+
+import AnimatedContent from "../../animatedComponents/AnimatedContentProps.js";
+
+export type FormDataType = {
+  name: string;
+  category: string,
+  filesize: number,
+  // url: string | null;
+  isPublic: boolean;
+  description?: string | null;
+  tags?: string | null;
+};
 
 
-// Defining in parent 
-export interface DragNDropProps {
+function UploadPage() {
 
-  // setFileSelected: React.Dispatch<SetStateAction<boolean>>,
-  setSelectedFile: React.Dispatch<React.SetStateAction<File | null>>,
-
-}
-
-
-
-// ::::::::::::::::::::::::
-// ::: MAIN UPLOAD PAGE :::
-
-function UploadFile() {
-
+  // :: For Upload ::
   const [filename, setFilename] = useState<string>("");
-  const [category, setCategory] = useState<string>("");
-  const [privacy, setPrivacy] = useState("Everybody on project");
-
-  const [sendCopy, setSendCopy] = useState<boolean>(false);
-
+  const [fileType, setFileType] = useState<string>("");
+  const [formData, setFormData] = useState<FormDataType>({
+    name: "",
+    category: "",
+    description: "",
+    tags: "",
+    filesize: 0,
+    isPublic: false,
+  });
 
   // :: For file drag and drop or select file input
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
+  const [uploadProgress, setUploadProgress] = useState<number>(0);
+  const [uploadComplete, setUploadComplete] = useState<boolean>(false);
+  const [shouldUpload, setShouldUpload] = useState<boolean>(false);
+
+  const [formStepIndicator, setFormStepIndicator] = useState<number>(1);
 
 
-  /// ::: HANDLER FUNCTIONS :::
-  const handleUpload = () => { };
-  const handleFileChange = () => { };
-  const handleDrag = (e: DragEvent<HTMLFormElement>) => { };
+  // :: Cancelling token for aborting uplaod ::
+  const controller = new AbortController();
 
-  const handleFileUpload = () => { }
+  // :::::::::::::::::::::::::::::::::::::::::
+  //  ::: USE EFFECTS FOR HANDLING CHANGE ::: 
+  // :::::::::::::::::::::::::::::::::::::::::
+  useEffect(() => {
 
-  function HandleUploadForm() {
-    // Drag N Drop 
-    if (selectedFile) {
-      HandleSubmit();
+    if (selectedFile != null) {
+
+      setFilename(selectedFile.name);
+
+      setFileType(selectedFile.type.split('/')[0]);
+
+      setFormStepIndicator(formStepIndicator + 1);
     }
 
-    return <DragNDrop setSelectedFile={setSelectedFile} />
-  }
-
-  // TODO::
-
-  async function HandleSubmit() {
-
-    const uploadData: FormData = new FormData();
-    selectedFile && uploadData.append("file", selectedFile);
+  }, [selectedFile])
 
 
-    const response = await instance.post("/upload", uploadData, {
-      headers: {
-        "Content-Type": "multipart/form-data"
-      }
+  // ::: Use Effect when upload complete :::
+  useEffect(() => {
+
+    ResetAllData();
+
+  }, [uploadComplete]);
+
+
+  // ::: Function to RESET all states :::
+  function ResetAllData() {
+
+    setFilename("");
+    setFileType("");
+    setFormData({
+      name: "",
+      category: "",
+      description: "",
+      tags: "",
+      filesize: 0,
+      isPublic: false,
     });
 
-    if (response) {
-      console.log(response);
-    }
+    setSelectedFile(null);
+
+    setUploadProgress(0);
+    // setUploadComplete(false);
+    setShouldUpload(false);
+
+    setFormStepIndicator(1);
+  }
+
+  // :: Function to Cancel Selected file :::
+  function CancelUploadingFile() {
+    controller.abort();
+    CancelSelectedFile();
+  }
+
+  // :: Function to Cancel Selected file :::
+  function CancelSelectedFile() {
+
+    ResetAllData()
 
   }
 
+  // :: Function to handle upload process :: 
+  function HandleUploadPages() {
+
+    if (selectedFile == null) {
+      return (<>
+        <div className="w-full min-h-[300px]">
+          <AnimatedContent
+            distance={100}
+            direction="horizontal"
+            reverse={false}
+            duration={0.3}
+            ease="power.out"
+            initialOpacity={0.2}
+            animateOpacity
+            scale={1}
+            threshold={0.2}
+            delay={0.1}
+          >
+
+            < DragNDrop
+              setSelectedFile={setSelectedFile} />
+          </AnimatedContent>
+        </div >
+      </>
+      )
+    }
+
+    else {
+      return (
+        <AnimatedContent
+          distance={100}
+          direction="horizontal"
+          reverse={false}
+          duration={0.3}
+          ease="power.out"
+          initialOpacity={0.2}
+          animateOpacity
+          scale={1}
+          threshold={0.2}
+          delay={0.1}
+        >
+
+          <div
+            className="w-full h-full flex flex-col lg:flex-row gap-2 bg-white/10 rounded-2xl p-2">
+            {/* UPLOADING FILE */}
+            <div className="w-full h-fit lg:w-1/2 lg:h-full  rounded-2xl bg-slate-800/10">
+              <FileUploadCard
+                fileType={fileType}
+                filename={filename}
+                uploadComplete={uploadComplete}
+                uploadProgress={uploadProgress}
+                startUploading={shouldUpload}
+                cancelUploadingFile={CancelUploadingFile}
+                cancelSelectedFile={CancelSelectedFile} />
+            </div>
+
+            {/* FORM */}
+            <div className="w-full h-full lg:w-2/3">
+              <UploadFileForm
+                file={selectedFile}
+                filename={filename}
+                startUpload={shouldUpload}
+                formData={formData}
+                setFormData={setFormData}
+                SubmitFunction={HandleSubmit}
+              />
+            </div>
+          </div>
+        </AnimatedContent>
+      )
+    }
+  }
+
+  // :: Sending Uploaded file and data to server :::
+  const HandleSubmit = async () => {
+
+
+    if (fileType)
+      setShouldUpload(true);
+
+    // ::: Configuring the axios request ::: 
+    const config = {
+      headers: {
+        'Content-Type': "multipart/form-data"
+      },
+      signal: controller.signal,
+      onUploadProgress: (progressEvent: any) => {
+        if (progressEvent.total) {
+          const progressPercentage = (progressEvent.loaded / progressEvent.total) * 100;
+          setUploadProgress(progressPercentage); // Update the progress state
+        }
+      }
+    };
+
+
+    // Beginning the request :)
+    try {
+      const response = await instance.post("/upload", formData, config);
+
+      if (response.status != 500) {
+        setUploadComplete(true);
+      }
+
+    } catch (error) {
+      console.error("Error Uploading file:" + error);
+    }
+
+  }
 
   return (
     // Whole page
-    <div className="h-screen  w-screen flex items-center justify-center">
+    <div className="h-screen w-screen flex items-center justify-center">
 
       {/* Card container */}
-      <div className="h-[70%] w-[90%] sm:w-2/3 lg:w-1/2 rounded-xl p-4 bg-violet-700/50 flex flex-col">
+      <div className="h-fit w-[90%] md:w-2/3 lg:w-[80%] xl:w-[60%] rounded-xl p-4 bg-violet-700/50 flex flex-col">
 
         {/* Card Heading */}
-        <h2 className="text-2xl font-bold font-sans p-2">
-
-          <StepIndicator currentStep={2} />
+        <h2 className="text-2xl font-bold font-sans px-4 py-2">
+          <StepIndicator currentStep={formStepIndicator} />
         </h2>
-        <hr />
+
+        <hr className="mx-2" />
 
         {/* MAIN */}
-        <div className="w-full h-full flex flex-row flex-wrap md:flex-nowrap p-3 gap-3">
-
-          {/* ::: SECTION FOR ALL DATAT ::: */}
-          <div className="w-full h-full">
-            {HandleUploadForm()}
-          </div>
-
+        <div className="w-full h-full flex flex-row flex-wrap md:flex-nowrap p-2 ">
+          {HandleUploadPages()}
         </div>
       </div>
     </div>
   );
 }
 
-export default UploadFile;
+export default UploadPage;

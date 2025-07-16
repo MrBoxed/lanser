@@ -1,4 +1,4 @@
-import { UploadTypes } from "./utilTypes";
+import { UploadTypes } from "./Types";
 
 /// ::: Funcition to get file type name
 export function GetFileType(uploadedFile: File): string | null {

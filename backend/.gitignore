@@ -4,6 +4,9 @@
 # The typescript build
 build
 
+# database file
+lanser.db
+
 # Drizzle file
 drizzle
 
