@@ -18,14 +18,15 @@ export default function StepIndicator({ currentStep }: StepIndicatorProps) {
                         className="flex flex-col items-center justify-center">
 
                         <div
-                            className={`z-1 flex items-center justify-center w-10 h-10 rounded-full transition-all shadow ${currentStep === step.id
-                                ? "bg-black/50 text-primary border-2 border-primary"
-                                : currentStep > step.id
-                                    ? "bg-white/50 text-primary-foreground"
-                                    : "bg-black/50 text-foreground"
+                            className={`z-1 flex items-center justify-center w-10 h-10 rounded-full transition-all shadow 
+                                ${currentStep === step.id
+                                    ? "bg-black/50 text-primary border-2 border-primary"
+                                    : currentStep > step.id
+                                        ? "bg-white/50 text-primary-foreground"
+                                        : "bg-black/50 text-foreground"
                                 }`}
                         >
-                            {currentStep > step.id ? (
+                            {((currentStep > step.id) || currentStep == 3) ? (
                                 <Check className="w-5 h-5" />
                             ) : (
                                 <span>{step.id}</span>

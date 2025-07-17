@@ -17,7 +17,7 @@ const FileCategory: string[] = ["movie", "music", "document", "books", "video", 
 function UploadFileForm({ file, startUpload, SubmitFunction, formData, setFormData }: UploadFileFormProps) {
 
   const [tags, setTags] = useState<string>("");
-  const [fileName, setFileName] = useState<string>(file.name);
+  const [fileName, setFileName] = useState<string>(file.name.split('.')[0]);
   const [category, setCategory] = useState<string>("");
   const [makePublic, setMakePublic] = useState<boolean>(false);
   const [description, setDescription] = useState<string>("");

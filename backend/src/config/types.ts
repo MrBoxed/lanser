@@ -4,6 +4,16 @@ export type UploadDirType = {
     thumbnail: string
 }
 
+export type UserFormData = {
+  name: string;
+  category: string,
+  filesize: number,
+  // url: string | null;
+  isPublic: boolean;
+  description?: string | null;
+  tags?: string | null;
+};
+
 export type FileSchema = {
     id: string;
     originalName: string;

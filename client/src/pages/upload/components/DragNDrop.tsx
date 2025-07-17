@@ -3,14 +3,6 @@ import React, { DragEvent, useState, useRef, useEffect, MouseEventHandler, SetSt
 import { GetFileType } from "../../../utils/utils";
 
 
-// TODO: 
-//  user can upload via drag n drop or choosing
-// 
-// PARENT: 
-//    tells the parent file type:
-//    provide the file to parent
-//    
-
 // Defining in parent 
 export interface DragNDropProps {
 
@@ -50,7 +42,7 @@ function DragNDrop({ setSelectedFile }: DragNDropProps) {
     else {
       setFile(droppedFiles[0]);
       console.log(droppedFiles[0].type)
-      console.log(droppedFiles[0]);
+      // console.log(droppedFiles[0]);
 
     }
 

@@ -6,6 +6,7 @@ import FileUploadCard from "./components/FileUploadCard.js";
 import DragNDrop from "./components/DragNDrop.js";
 
 import AnimatedContent from "../../animatedComponents/AnimatedContentProps.js";
+import Success from "./components/Success.js";
 
 export type FormDataType = {
   name: string;
@@ -64,10 +65,13 @@ function UploadPage() {
 
   // ::: Use Effect when upload complete :::
   useEffect(() => {
+    if (!uploadComplete || formStepIndicator !== 2) return;
 
-    ResetAllData();
+    setFormStepIndicator(3);
 
-  }, [uploadComplete]);
+
+
+  }, [uploadComplete, formStepIndicator]);
 
 
   // ::: Function to RESET all states :::
@@ -87,7 +91,7 @@ function UploadPage() {
     setSelectedFile(null);
 
     setUploadProgress(0);
-    // setUploadComplete(false);
+    setUploadComplete(false);
     setShouldUpload(false);
 
     setFormStepIndicator(1);
@@ -101,15 +105,18 @@ function UploadPage() {
 
   // :: Function to Cancel Selected file :::
   function CancelSelectedFile() {
-
     ResetAllData()
+  }
 
+  // :: Function to do Reupload :::
+  function ReuploadFiles() {
+    ResetAllData();
   }
 
   // :: Function to handle upload process :: 
   function HandleUploadPages() {
 
-    if (selectedFile == null) {
+    if (selectedFile == null && formStepIndicator == 1) {
       return (<>
         <div className="w-full min-h-[300px]">
           <AnimatedContent
@@ -133,7 +140,13 @@ function UploadPage() {
       )
     }
 
-    else {
+    else if (formStepIndicator == 2) {
+
+      if (!selectedFile) {
+        console.log("File error");
+        return <></>
+      }
+
       return (
         <AnimatedContent
           distance={100}
@@ -177,14 +190,44 @@ function UploadPage() {
         </AnimatedContent>
       )
     }
+
+    else if (formStepIndicator == 3) {
+
+      return (
+        <AnimatedContent
+          distance={100}
+          direction="horizontal"
+          reverse={false}
+          duration={0.3}
+          ease="power.out"
+          initialOpacity={0.2}
+          animateOpacity
+          scale={1}
+          threshold={0.2}
+          delay={0.1}
+        >
+          <div className="w-full h-[300px]">
+            <Success reuploadFunc={ReuploadFiles} />
+          </div>
+
+        </AnimatedContent >
+      )
+    }
   }
 
   // :: Sending Uploaded file and data to server :::
   const HandleSubmit = async () => {
 
 
-    if (fileType)
-      setShouldUpload(true);
+    if (!selectedFile) {
+      return console.log("file not found");
+    }
+
+    setShouldUpload(true);
+
+    const uploadData: FormData = new FormData();
+    uploadData.append("file", selectedFile),
+      uploadData.append("data", JSON.stringify(formData));
 
     // ::: Configuring the axios request ::: 
     const config = {
@@ -203,7 +246,7 @@ function UploadPage() {
 
     // Beginning the request :)
     try {
-      const response = await instance.post("/upload", formData, config);
+      const response = await instance.post("/upload", uploadData, config);
 
       if (response.status != 500) {
         setUploadComplete(true);
@@ -220,7 +263,7 @@ function UploadPage() {
     <div className="h-screen w-screen flex items-center justify-center">
 
       {/* Card container */}
-      <div className="h-fit w-[90%] md:w-2/3 lg:w-[80%] xl:w-[60%] rounded-xl p-4 bg-violet-700/50 flex flex-col">
+      <div className="h-fit w-[90%] md:w-2/3 lg:w-1/2 rounded-xl p-4 bg-violet-700/50 flex flex-col">
 
         {/* Card Heading */}
         <h2 className="text-2xl font-bold font-sans px-4 py-2">
