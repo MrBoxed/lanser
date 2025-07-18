@@ -73,6 +73,7 @@ function UploadFileForm({ file, startUpload, SubmitFunction, formData, setFormDa
         value={category}
         onChange={(e) => setCategory(e.target.value)}
         required
+        defaultValue='movie'
         className="w-full min-h-6 bg-black/50  rounded-md p-2"
       >
         {

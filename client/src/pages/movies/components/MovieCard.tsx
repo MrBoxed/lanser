@@ -17,7 +17,7 @@ function MovieCard() {
     return (
 
         <div
-            className='w-[450px] h-[300px] bg-white/20 relative hover:scale-105 transition duration-300 '>
+            className='w-[200px] h-[300px] bg-white/20 relative hover:scale-105 transition duration-300 '>
 
             <img
                 src="https://windows10spotlight.com/wp-content/uploads/2023/01/81a6e74c8adbf7f55406e8c4b80669d5.jpg"

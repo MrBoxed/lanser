@@ -7,6 +7,7 @@
     "build": "tsc",
     "watch": "tsc -w",
     "start": "node --watchh ./build/server.js",
+    "db:push": "drizzle-kit push",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "MrBoxed",
