@@ -42,9 +42,9 @@ const Success = ({ reuploadFunc }: SuccessProps) => {
                 </button>
                 <button
                     onClick={handleUploadMore}
-                    className='w-[120px] font-semibold bg-transparent border-1 hover:bg-white/30  rounded-full'
+                    className='w-fit font-semibold bg-transparent border-1 hover:bg-white/30  rounded-full'
                 >
-                    Uplaod
+                    Uplaod More
                 </button>
             </div>
         </div >

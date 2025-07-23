@@ -4,9 +4,8 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import axios from 'axios';
 
 import 'swiper';
-import 'swiper/'
+import 'swiper/css'
 import { Autoplay, EffectCoverflow, EffectFade, Keyboard, Pagination } from 'swiper/modules';
-import { Image } from '@heroui/image';
 
 const data = [
     './1.jpg',
@@ -35,9 +34,12 @@ function MovieCarousel() {
             {data.map((item, index) => {
                 return (
                     <SwiperSlide>
-                        <div>
-                            <Image isBlurred src={item} className='object-fill' />
-                            <p className='fixed bottom-2 mx-5 flex items-center font-semibold text-2xl text-white'>{data[index]}</p>
+                        <div className='relative w-full h-full flex items-center '>
+                            <img
+                                src='http://localhost:27110/api/thumbnail/3'
+                                className='object-cover z-1'
+                            />
+                            <p className='absolute z-2 left-20 mx-5 flex items-center font-semibold text-2xl text-white'>Avenger</p>
                         </div>
                     </SwiperSlide>)
             })

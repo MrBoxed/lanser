@@ -3,18 +3,18 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 type Props = {
-  showBtn: boolean,
+  showBtn?: boolean,
   btnFunction: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 function UploadNavButton({ showBtn, btnFunction }: Props) {
 
-  const [show, setShow] = useState<boolean>(showBtn);
+  const [show, setShow] = useState<boolean>(showBtn || true);
   const navigate = useNavigate();
 
   const handleClick = () => {
     btnFunction(!show);
-    setShow(false)
+    // setShow(false)
     navigate("/upload");
 
   }

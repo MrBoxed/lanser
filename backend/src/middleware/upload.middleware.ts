@@ -2,7 +2,7 @@ import multer from "multer";
 import fs from "fs";
 import path from "path";
 import { NextFunction, Request, Response } from "express";
-import { UploadDirType } from "../config/types";
+import { UploadDirType } from "../types/types";
 import { UPLOAD_DIR } from "../config/server.config";
 
 // :: Folder path where you want to create uploads folders:
@@ -57,7 +57,10 @@ const allowedDocumentMimeTypes = [
   "text/xml",
 ];
 
-const FIELD_NAME = "file";
+export const MAIN_FILE = "file";
+export const THUMBNAIL_FILE = "thumbnail";
+
+let MasterType: UploadDirType;
 
 export default function UploadFile(
   req: Request,
@@ -74,26 +77,39 @@ export default function UploadFile(
     const storage = multer.diskStorage({
       destination: function (req, file, cb) {
         let uploadType = null;
+
         const fileMimeType = file.mimetype;
         // console.log(typeof (fileMimeType));
 
         if (allowedVideoMimeTypes.includes(fileMimeType)) {
           // VIDEO
           uploadType = UPLOAD_DIR.get("movies");
+          if (uploadType) MasterType = uploadType;
         }
 
         if (allowedAudioMimeTypes.includes(fileMimeType)) {
           // AUDIO
           uploadType = UPLOAD_DIR.get("music");
+          if (uploadType) MasterType = uploadType;
         }
 
         if (allowedDocumentMimeTypes.includes(fileMimeType)) {
           // DOCS
           uploadType = UPLOAD_DIR.get("books");
+          if (uploadType) MasterType = uploadType;
+        }
+
+        // For thumbnail only temperary JUGAAD
+        if (fileMimeType.startsWith("image/")) {
+          // Ensure the folder exists, or create it
+          if (!fs.existsSync(MasterType?.thumbnail)) {
+            fs.mkdirSync(MasterType.thumbnail, { recursive: true });
+          }
+          return cb(null, MasterType.thumbnail);
         }
 
         if (!uploadType) {
-          throw new Error("Uplaod Directory import error:");
+          throw new Error("Uplaod Directory import error:" + file.mimetype);
         }
 
         // Ensure the folder exists, or create it
@@ -107,29 +123,35 @@ export default function UploadFile(
       filename: function (req, file, cb) {
         const userProvidedName: string | undefined = req.body?.data?.name;
 
+        // Use original filename if no name provided
         if (!userProvidedName) {
           return cb(null, file.originalname);
         }
 
+        // Get file extension (fallback to original if needed)
         const ext =
-          path.extname(file.originalname) || path.extname(userProvidedName);
+          path.extname(userProvidedName) || path.extname(file.originalname);
 
+        // Sanitize base name: no spaces, only alphanumeric, dash, underscore
         const baseName = path
           .basename(userProvidedName, ext)
-          .replace(/\s+/g, "-") // replace spaces with dashes
-          .replace(/[^a-zA-Z0-9-_]/g, ""); // remove unsafe characters
+          .replace(/\s+/g, "-") // Replace spaces with dashes
+          .replace(/[^a-zA-Z0-9-_]/g, ""); // Remove unsafe characters
 
-        const timestamp = Date.now();
-        const finalName = `${baseName}-${timestamp}${ext}`;
+        const timestamp = Date.now(); // Ensure uniqueness
+        const uniqueName = `${baseName}-${timestamp}${ext}`;
 
-        cb(null, finalName);
+        cb(null, uniqueName);
       },
     });
 
     if (storage) {
       const upload = multer({ storage: storage });
 
-      upload.single(FIELD_NAME)(req, res, (err) => {
+      upload.fields([
+        { name: MAIN_FILE, maxCount: 1 },
+        { name: THUMBNAIL_FILE, maxCount: 1 },
+      ])(req, res, (err) => {
         if (err) {
           console.error("Multer error:", err.message);
           return res
@@ -137,7 +159,15 @@ export default function UploadFile(
             .json({ error: "File upload failed", details: err.message });
         }
 
-        console.log(`Video uploaded successfully: ${req.file?.filename}`);
+        const files = req.files as {
+          [fieldname: string]: Express.Multer.File[];
+        };
+
+        // ✅ Manually assign to req.file and req.thumbnail
+        req.file = files["file"]?.[0];
+        (req as any).thumbnail = files["thumbnail"]?.[0];
+
+        console.log("Video uploaded successfully:" + req.thumbnail?.filename);
         next();
       });
     } else {
@@ -145,6 +175,7 @@ export default function UploadFile(
     }
   } catch (err: any) {
     console.error("Error at uploading: " + err.message);
+    return;
   }
 }
 

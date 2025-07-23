@@ -1,21 +1,25 @@
 import React, { DragEvent, useEffect, useState } from "react";
 import StepIndicator from "./components/StepIndicator.js";
-import UploadFileForm from "./components/UploadFileForm.js";
+import UploadFileForm, { CategoryType } from "./components/UploadFileForm.js";
 import { instance } from "../../config/ApiService.js";
 import FileUploadCard from "./components/FileUploadCard.js";
 import DragNDrop from "./components/DragNDrop.js";
 
 import AnimatedContent from "../../animatedComponents/AnimatedContentProps.js";
 import Success from "./components/Success.js";
+import { MovieFormType } from "./components/forms/MovieForm.js";
 
+
+/// ::::::::::::::::::::::::::::::::;
+///  ::: FORM UPLOAD TYPE ::::
+/// ::::::::::::::::::::::::::::::::;
 export type FormDataType = {
-  name: string;
-  category: string,
+  category: CategoryType | null,
   filesize: number,
+  movieData: MovieFormType | null,
+  // musicData: MusicForm | null,
+  // bookData: BookForm | null,
   // url: string | null;
-  isPublic: boolean;
-  description?: string | null;
-  tags?: string | null;
 };
 
 
@@ -25,12 +29,9 @@ function UploadPage() {
   const [filename, setFilename] = useState<string>("");
   const [fileType, setFileType] = useState<string>("");
   const [formData, setFormData] = useState<FormDataType>({
-    name: "",
-    category: "",
-    description: "",
-    tags: "",
+    category: null,
     filesize: 0,
-    isPublic: false,
+    movieData: null
   });
 
   // :: For file drag and drop or select file input
@@ -80,12 +81,9 @@ function UploadPage() {
     setFilename("");
     setFileType("");
     setFormData({
-      name: "",
-      category: "",
-      description: "",
-      tags: "",
+      category: null,
       filesize: 0,
-      isPublic: false,
+      movieData: null
     });
 
     setSelectedFile(null);
@@ -218,7 +216,6 @@ function UploadPage() {
   // :: Sending Uploaded file and data to server :::
   const HandleSubmit = async () => {
 
-
     if (!selectedFile) {
       return console.log("file not found");
     }
@@ -226,8 +223,15 @@ function UploadPage() {
     setShouldUpload(true);
 
     const uploadData: FormData = new FormData();
-    uploadData.append("file", selectedFile),
-      uploadData.append("data", JSON.stringify(formData));
+    uploadData.append("file", selectedFile);
+
+    if (formData.movieData?.thumbnail) {
+      uploadData.append("thumbnail", formData.movieData.thumbnail);
+    }
+
+    uploadData.append("data", JSON.stringify(formData));
+
+    console.log("uplodingData:" + uploadData);
 
     // ::: Configuring the axios request ::: 
     const config = {

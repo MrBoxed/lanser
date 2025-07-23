@@ -1,5 +1,5 @@
 import express from "express";
-import cors from "cors"
+import cors from "cors";
 import { SERVER_PORT, ROOT_FOLDER } from "./config/server.config";
 import { drizzle } from "drizzle-orm/singlestore/driver";
 import apiRoutes from "./routes/home.route";
@@ -20,14 +20,14 @@ const app = express();
 // Enable CORS for all routes & origins
 app.use(cors());
 
-// ::: IP:PORT/api/ :::
-app.use('/api', apiRoutes);
+app.use(express.json());
 
+// ::: IP:PORT/api/ :::
+app.use("/api", apiRoutes);
 
 // ::: CONNECTING DATATBASE :::
 // const db = drizzle();
 
-
 app.listen(SERVER_PORT, () => {
-    console.log(`server working on: ${SERVER_PORT} port`)
-})
+  console.log(`server working on: ${SERVER_PORT} port`);
+});

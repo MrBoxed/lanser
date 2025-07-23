@@ -4,7 +4,7 @@ import Books from "../../pages/books/Books";
 
 import { Link, Links, useNavigate } from "react-router-dom";
 
-import { PRODUCT_NAME, siteTabs } from "../../utils/constants";
+import { PRODUCT_NAME, siteTabs, TabType } from "../../utils/constants";
 import { Menu, Upload } from "lucide-react";
 import { useState } from "react";
 import Drawer from "../Drawer";
@@ -18,10 +18,17 @@ function NavBar() {
   // ::: For mobile drawer :::
   const [openMenu, setOpenMenu] = useState<boolean>(false);
   const [uplaodBtnEnable, setUploadBtnEnable] = useState<boolean>(true);
+  const [currentTab, setCurrentTab] = useState<number>(0)
+
   const openDrawer = () => setOpenMenu(true);
 
+  function HandleTabs(e: React.MouseEvent<HTMLLIElement, MouseEvent>, page: TabType, key: number) {
+    navigate(page.path);
+    setCurrentTab(key);
+  }
+
   return (
-    <nav className="navbar-style ">
+    <nav className="navbar-style">
 
       {/* HAMBURBER FOR MOBILE */}
       <div className="lg:hidden hover:bg-white/30 rounded-full p-2">
@@ -39,17 +46,23 @@ function NavBar() {
       </div>
 
       {/* TABS FOR DIFF WEBPAGES */}
-      <div className="hidden lg:block px-3 flex-3 flex gap-x-2 pt-2">
-        <ul className="w-fit flex flex-wrap justify-start text-sm font-medium m-1 text-center text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400">
-          {siteTabs.map((page) => (
-            <li className="me-2" key={page.path}>
-              <a
-                href={page.path}
+      <div className="hidden lg:block mx-6">
+
+        <ul className="w-fit flex flex-wrap text-md mt-4 font-medium text-center text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400 z-1">
+
+          {siteTabs.map((page, key) => (
+            <li
+              key={page.path}
+              onClick={(e) => HandleTabs(e, page, key)}
+              className="px-2"
+            >
+              <text
                 aria-current="page"
-                className="inline-block px-4 py-2 bottom-0 text-blue-600 bg-gray-100 rounded-t-lg active dark:bg-gray-800 dark:text-blue-500"
+                className={`inline-block px-4 py-2 text-white  rounded-t-lg  dark:bg-gray-800 dark:text-blue-500 cursor-pointer
+                  ${(currentTab == key) ? "bg-violet-700" : "bg-gray-900"}`}
               >
                 {page.name}
-              </a>
+              </text>
             </li>
           ))}
         </ul>
@@ -58,15 +71,15 @@ function NavBar() {
       {/* LOGIN / UPLOAD BUTTONS */}
 
       <div className="flex grow gap-x-1 px-5  items-center justify-evenly">
-        <div className="p-2">
+        <div className="p-2 text-white">
           <UploadNavButton
-            showBtn={uplaodBtnEnable}
+            // showBtn={uplaodBtnEnable}
             btnFunction={setUploadBtnEnable} />
         </div>
 
         <div
-          onClick={() => navigate("/login")}
-          className="text-white font-bold cursor-pointer p-2 hover:text-violet-800"
+          onClick={() => navigate("/movies")}
+          className="text-white font-bold cursor-pointer p-2 border- rounded-full px-4 hover:bg-violet-800"
         >
           Login
         </div>
