@@ -18,7 +18,7 @@ function Home() {
           <div
             key={index}
             onClick={() => navigate(item.path)}
-            className="relative flex-1 h-full p-8 text-3xl items-center justify-center font-semibold hover:scale-110 overflow-hidden transition delay-100 ease-in-out hover:shadow-2xl hover:backdrop-blur-2xl ho"
+            className="relative flex-1 h-full p-2 text-3xl items-center justify-center font-semibold hover:scale-110 overflow-hidden transition delay-100 ease-in-out hover:shadow-2xl hover:backdrop-blur-sm"
           >
             {
               (item.name == "Movies")
