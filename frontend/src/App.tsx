@@ -10,6 +10,7 @@ import { Login } from "./pages/auth/Login";
 import { SignUp } from "./pages/auth/Signup";
 import NavBar from "./components/layout/Navbar";
 import ErrorPage from "./components/layout/ErrorPage";
+import BookReaderPage from "./pages/books/BookReaderPage";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path="movies/watch/:movieId" element={<WatchPage />} />
           <Route path="/music" element={<Music />} />
           <Route path="/books" element={<Books />} />
+          <Route path="/books/read/:fileId" element={<BookReaderPage />} />
           <Route path="/upload" element={<UploadFile />} />
           <Route path="/auth/login" element={<Login />} />
           <Route path="/auth/signup" element={<SignUp />} />

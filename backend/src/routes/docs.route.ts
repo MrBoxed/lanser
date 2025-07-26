@@ -2,7 +2,7 @@ import express from "express";
 import { eq } from "drizzle-orm";
 import path from "path";
 import fs from "fs";
-import { db } from "../db/db";
+import { db, GetRecentBooks, SearchBooks } from "../db/db";
 import { booksTable, filesTable } from "../db/schema";
 import { authenticateToken } from "../middleware/auth.middleware";
 
@@ -13,9 +13,33 @@ router.get("/", async (req, res) => {
   try {
     const books = await db.select().from(booksTable);
     res.json(books);
+    console.log(books);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Failed to fetch books" });
+  }
+});
+
+router.get("/recent", async (req, res) => {
+  try {
+    const limit = parseInt(req.query.limit as string) || 10;
+    const books = await GetRecentBooks(limit);
+    res.json(books);
+  } catch (error) {
+    console.error("API Error: GetRecentBooks", error);
+    res.status(500).send("Internal server error.");
+  }
+});
+
+router.get("/search", async (req, res) => {
+  try {
+    const query = (req.query.query as string) || "";
+    const limit = parseInt(req.query.limit as string) || 20;
+    const books = await SearchBooks(query, limit);
+    res.json(books);
+  } catch (error) {
+    console.error("API Error: SearchBooks", error);
+    res.status(500).send("Internal server error.");
   }
 });
 

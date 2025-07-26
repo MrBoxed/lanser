@@ -62,6 +62,7 @@ export const musicTable = sqliteTable("Music", {
     }),
 });
 
+
 export const booksTable = sqliteTable("Books", {
   id: int("id").primaryKey({ autoIncrement: true }),
   title: text("title").notNull(),

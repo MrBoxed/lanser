@@ -185,7 +185,6 @@ function UploadPage() {
                 file={selectedFile}
                 filename={filename}
                 startUpload={shouldUpload}
-                formData={formData}
                 setFormData={setFormData}
                 SubmitFunction={HandleSubmit}
               />
@@ -281,7 +280,7 @@ function UploadPage() {
 
   return (
     // Whole page
-    <div className="h-dvh w-full flex text-white items-center justify-center">
+    <div className="w-full h-[90%] flex text-white items-center justify-center">
 
       {/* Card container */}
       <div className="h-fit w-[90%] md:w-2/3 lg:w-1/2 rounded-xl p-4 bg-violet-700/50 flex flex-col">

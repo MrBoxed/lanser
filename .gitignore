@@ -1,5 +1,3 @@
-movies
-books
-music
-images
-docs
+backend/movies
+backend/books
+backend/music

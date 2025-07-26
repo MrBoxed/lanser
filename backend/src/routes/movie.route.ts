@@ -1,6 +1,6 @@
 import express from "express";
 import { authenticateToken } from "../middleware/auth.middleware";
-import { db } from "../db/db";
+import { db, GetRecentMovies, SearchMovies } from "../db/db";
 import { filesTable, movieTable } from "../db/schema";
 import { desc, eq } from "drizzle-orm";
 import path from "path";
@@ -19,19 +19,26 @@ movieRouter.get("/", authenticateToken, async (req, res) => {
 });
 
 // Getting the latest included movies
-movieRouter.get("/latest", authenticateToken, async (req, res) => {
+movieRouter.get("/recent", async (req, res) => {
   try {
-    const movies = await db
-      .select()
-      .from(movieTable)
-      .leftJoin(filesTable, eq(movieTable.fileId, filesTable.id))
-      .orderBy(desc(filesTable.uploadDate))
-      .limit(5);
-
-    res.status(200).json({ message: "Latest movies fetched", data: movies });
+    const limit = parseInt(req.query.limit as string) || 10;
+    const movies = await GetRecentMovies(limit);
+    res.json(movies);
   } catch (error) {
-    console.error("Error fetching latest movies:", error);
-    res.status(500).json({ error: "Failed to fetch latest movies" });
+    console.error("API Error: GetRecentMovies", error);
+    res.status(500).send("Internal server error.");
+  }
+});
+
+movieRouter.get("/search", async (req, res) => {
+  try {
+    const query = (req.query.query as string) || "";
+    const limit = parseInt(req.query.limit as string) || 20;
+    const movies = await SearchMovies(query, limit);
+    res.json(movies);
+  } catch (error) {
+    console.error("API Error: SearchMovies", error);
+    res.status(500).send("Internal server error.");
   }
 });
 

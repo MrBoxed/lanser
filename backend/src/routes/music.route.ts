@@ -1,6 +1,6 @@
 import express from "express";
 import { authenticateToken } from "../middleware/auth.middleware";
-import { db } from "../db/db";
+import { db, GetRecentMusic, SearchMusic } from "../db/db";
 import { musicTable } from "../db/schema";
 import { eq } from "drizzle-orm";
 import path from "path";
@@ -15,6 +15,29 @@ audioRouter.get("/", authenticateToken, async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Could not fetch music" });
+  }
+});
+
+audioRouter.get("/search", async (req, res) => {
+  try {
+    const query = (req.query.query as string) || "";
+    const limit = parseInt(req.query.limit as string) || 20;
+    const music = await SearchMusic(query, limit);
+    res.json(music);
+  } catch (error) {
+    console.error("API Error: SearchMusic", error);
+    res.status(500).send("Internal server error.");
+  }
+});
+
+audioRouter.get("/recent", async (req, res) => {
+  try {
+    const limit = parseInt(req.query.limit as string) || 10;
+    const music = await GetRecentMusic(limit);
+    res.json(music);
+  } catch (error) {
+    console.error("API Error: GetRecentMusic", error);
+    res.status(500).send("Internal server error.");
   }
 });
 
