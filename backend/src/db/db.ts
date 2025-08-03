@@ -47,7 +47,7 @@ export async function InsertFileIntoTable(
     type NewFile = InferInsertModel<typeof filesTable>;
     const fileId: string = uuidv4();
 
-    // Ensure path uses forward slashes for consistency
+    // Ensure path uses forward slashes for consistency: as window file paht is differnet
     const filePath = uploadedFile.path.replace(/\\/g, "/");
 
     const fileData: NewFile = {
@@ -559,57 +559,3 @@ export async function SearchBooks(
     return undefined;
   }
 }
-
-/*
-// Example Express.js routes for these new functions:
-
-// In your Express app setup file (e.g., app.ts or routes/content.ts)
-import express from 'express';
-import {
-  GetRecentMovies, GetRecentBooks, GetRecentMusic, GetFavoriteItems, ToggleFavorite,
-  SearchMovies, SearchMusic, SearchBooks // Import new search functions
-} from './path/to/your/db/functions'; // Adjust path
-
-const router = express.Router();
-
-// ... (existing routes for /movies/recent, /books/recent, /music/recent, /favorites/:userId, /favorites/toggle) ...
-
-// New Search Routes
-router.get('/movies/search', async (req, res) => {
-  try {
-    const query = req.query.query as string || '';
-    const limit = parseInt(req.query.limit as string) || 20;
-    const movies = await SearchMovies(query, limit);
-    res.json(movies);
-  } catch (error) {
-    console.error("API Error: SearchMovies", error);
-    res.status(500).send('Internal server error.');
-  }
-});
-
-router.get('/music/search', async (req, res) => {
-  try {
-    const query = req.query.query as string || '';
-    const limit = parseInt(req.query.limit as string) || 20;
-    const music = await SearchMusic(query, limit);
-    res.json(music);
-  } catch (error) {
-    console.error("API Error: SearchMusic", error);
-    res.status(500).send('Internal server error.');
-  }
-});
-
-router.get('/books/search', async (req, res) => {
-  try {
-    const query = req.query.query as string || '';
-    const limit = parseInt(req.query.limit as string) || 20;
-    const books = await SearchBooks(query, limit);
-    res.json(books);
-  } catch (error) {
-    console.error("API Error: SearchBooks", error);
-    res.status(500).send('Internal server error.');
-  }
-});
-
-// app.use('/api', router); // Mount this router in your main app
-*/

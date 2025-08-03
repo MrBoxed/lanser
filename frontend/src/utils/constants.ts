@@ -15,6 +15,15 @@ export type TabType = {
   path: string;
 };
 
+export type UserData = {
+  id: number;
+  email: string;
+  name: string;
+  profilePic: string;
+  rold: string;
+  username: string;
+};
+
 export const siteTabs: TabType[] = [
   {
     name: "Movies",

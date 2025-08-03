@@ -217,7 +217,7 @@ const MovieForm = ({ SetMovieFormData }: MovieFormProps) => {
 
 
                 {/* Checkbox */}
-                < label
+                {/* < label
                     className="w-full min-h-6 text-lg flex items-center space-x-2 mt-2"
                 >
                     <input
@@ -228,7 +228,7 @@ const MovieForm = ({ SetMovieFormData }: MovieFormProps) => {
                         className="w-5 h-5 checked:bg-blue-600 peer-checked:to-blue-600:"
                     />
                     <span>Make Private</span>
-                </label >
+                </label > */}
 
             </>
         )

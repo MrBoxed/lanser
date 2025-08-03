@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import AnimatedContent from '@/components/common/AnimatedContent';
 import { Button } from '@/components/ui/button';
 import { instance } from '@/config/ApiService'; // Import instance for API calls
+import type { UserData } from '@/utils/constants';
 
 type MovieCardProps = {
     movie: MovieData;
@@ -16,9 +17,6 @@ export function MovieCard({ movie }: MovieCardProps) {
 
     // State to toggle info visibility on hover
     const [showInfo, setShowInfo] = useState<boolean>(false);
-    // State for favorite status, initialized to false.
-    // In a real application, this should be fetched from the user's favorites data
-    // passed down from a parent component (e.g., HomePage) or a global state.
     const [isFavorite, setIsFavorite] = useState<boolean>(false);
 
     // Split genre into an array of strings and limit to 2
@@ -38,18 +36,30 @@ export function MovieCard({ movie }: MovieCardProps) {
     const handleFavoriteToggle = async (e: React.MouseEvent) => {
         e.stopPropagation(); // Prevent click from propagating to the card's main toggle/navigation
 
-        // In a real application, retrieve the actual user ID from your authentication context/store.
-        // For this example, we'll use a placeholder.
-        const userId = localStorage.getItem("user_id") || "1"; // Replace with actual userId
+        const storedUser = localStorage.getItem("user");
+        let user: UserData | null = null;
+        if (storedUser) {
+            try {
+                user = JSON.parse(storedUser);
+
+            } catch (error) {
+                console.error("Error parsing user data:", error);
+            }
+        }
+
+        const userId: number | null | undefined = user?.id;
+
         if (!userId) {
             console.error("User not logged in. Cannot toggle favorite.");
             // Optionally, show a message to the user to log in
             return;
         }
 
+        console.log(user)
+
         try {
             const response = await instance.post(`${SERVER}favorites/toggle`, {
-                userId: parseInt(userId),
+                userId: userId,
                 fileId: movie.fileId, // Use the fileId to identify the item for favoriting
             });
 
@@ -60,11 +70,10 @@ export function MovieCard({ movie }: MovieCardProps) {
                 setIsFavorite(false);
                 console.log(`Movie "${movie.title}" removed from favorites.`);
             }
-            // After successful toggle, you might want to trigger a re-fetch of favorites
-            // in the parent (HomePage) to update the "Your Favorites" section.
+
         } catch (error) {
             console.error(`Error toggling favorite for movie "${movie.title}":`, error);
-            // Handle error (e.g., show a toast notification)
+
         }
     };
 

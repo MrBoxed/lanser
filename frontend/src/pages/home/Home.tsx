@@ -151,7 +151,7 @@ const HomePage: React.FC = () => {
       <section className="mb-10">
         <h2 className="text-3xl font-bold mb-6">Latest Books</h2>
         {loadingBooks ? renderLoading() : books.length === 0 ? renderNoContent("books") : (
-          <div className="flex flex-wrap">
+          <div className="flex flex-wrap gap-4">
             {books.map(book => (
               <BookCard key={book.id} book={book} />
             ))}
@@ -163,7 +163,7 @@ const HomePage: React.FC = () => {
       <section className="mb-10">
         <h2 className="text-3xl font-bold mb-6">Latest Music</h2>
         {loadingMusic ? renderLoading() : musicList.length === 0 ? renderNoContent("music") : (
-          <div className="flex flex-wrap">
+          <div className="flex flex-wrap gap-4">
             {musicList.map(music => (
               <MusicCard key={music.id} music={music} onPlay={handlePlayMusic} />
             ))}
