@@ -1,0 +1,9 @@
+{
+  "devDependencies": {
+    "@types/node": "^24.2.1"
+  },
+  "dependencies": {
+    "@types/bree": "^6.2.1",
+    "bree": "^9.2.4"
+  }
+}
